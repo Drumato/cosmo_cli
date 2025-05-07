@@ -30,4 +30,5 @@ gleam test  # Run the tests
 
 - [x] subcommands
 - [x] flags(short, long)
+  - [ ] inherit persistent flags to its subcommands
 - [ ] dynamic completion
