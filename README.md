@@ -28,6 +28,6 @@ gleam test  # Run the tests
 
 ## Roadmap
 
-- [ ] subcommands
+- [x] subcommands
 - [ ] flags(short, long)
 - [ ] dynamic completion
