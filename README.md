@@ -29,5 +29,5 @@ gleam test  # Run the tests
 ## Roadmap
 
 - [x] subcommands
-- [ ] flags(short, long)
+- [x] flags(short, long)
 - [ ] dynamic completion
