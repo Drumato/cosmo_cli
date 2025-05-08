@@ -51,33 +51,73 @@ pub fn root_command_with_int_flag_test() {
   |> should.be_ok()
 }
 
-pub fn root_commad_with_string_flag_test() {
-  let c =
-    cosmo_cli.new_command(name: "root", run: fn(_) { Ok(Nil) }, option_fns: [
-      cosmo_cli.with_command_flags([
-        cosmo_cli.new_flag_string("--name", [cosmo_cli.with_flag_short("-n")]),
-      ]),
-    ])
+pub fn root_command_with_string_flag_test() {
+  let command_fn = fn(flag_value: String) -> cosmo_cli.Command {
+    cosmo_cli.new_command(
+      name: "root",
+      run: fn(command: cosmo_cli.Command) {
+        case cosmo_cli.get_flag_string(command, "--name") {
+          Ok(count) -> count |> should.equal(flag_value)
+          Error(_) -> {
+            io.println("Error: name flag not found")
+            should.fail()
+          }
+        }
+        Ok(Nil)
+      },
+      option_fns: [
+        cosmo_cli.with_command_flags([
+          cosmo_cli.new_flag_string("--name", [
+            cosmo_cli.with_flag_short("-n"),
+            cosmo_cli.with_flag_default_string("gleam"),
+          ]),
+        ]),
+      ],
+    )
+  }
 
-  cosmo_cli.run(c, ["root", "-n", "gleam"])
+  cosmo_cli.run(command_fn("gleam!"), ["root", "-n", "gleam!"])
   |> should.be_ok()
 
-  cosmo_cli.run(c, ["root", "--name", "gleam"])
+  cosmo_cli.run(command_fn("gleam!!"), ["root", "--name", "gleam!!"])
+  |> should.be_ok()
+
+  cosmo_cli.run(command_fn("gleam"), ["root"])
   |> should.be_ok()
 }
 
 pub fn root_command_with_bool_flag_test() {
-  let c =
-    cosmo_cli.new_command(name: "root", run: fn(_) { Ok(Nil) }, option_fns: [
-      cosmo_cli.with_command_flags([
-        cosmo_cli.new_flag_bool("--verbose", [cosmo_cli.with_flag_short("-v")]),
-      ]),
-    ])
+  let command_fn = fn(flag_value: Bool) -> cosmo_cli.Command {
+    cosmo_cli.new_command(
+      name: "root",
+      run: fn(command: cosmo_cli.Command) {
+        case cosmo_cli.get_flag_bool(command, "--verbose") {
+          Ok(count) -> count |> should.equal(flag_value)
+          Error(_) -> {
+            io.println("Error: verbose flag not found")
+            should.fail()
+          }
+        }
+        Ok(Nil)
+      },
+      option_fns: [
+        cosmo_cli.with_command_flags([
+          cosmo_cli.new_flag_bool("--verbose", [
+            cosmo_cli.with_flag_short("-v"),
+            cosmo_cli.with_flag_default_bool(False),
+          ]),
+        ]),
+      ],
+    )
+  }
 
-  cosmo_cli.run(c, ["root", "-v"])
+  cosmo_cli.run(command_fn(True), ["root", "-v"])
   |> should.be_ok()
 
-  cosmo_cli.run(c, ["root", "--verbose"])
+  cosmo_cli.run(command_fn(True), ["root", "--verbose"])
+  |> should.be_ok()
+
+  cosmo_cli.run(command_fn(False), ["root"])
   |> should.be_ok()
 }
 

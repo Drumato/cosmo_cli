@@ -6,7 +6,7 @@ version = "1.0.0"
 #
 description = "A simple CLI library"
 licences = ["MIT"]
-repository = { type = "github", user = "DAumato", repo = "cosmo_cli" }
+repository = { type = "github", user = "Drumato", repo = "cosmo_cli" }
 links = [{ title = "Website", href = "https://github.com/Drumato/cosmo_cli" }]
 #
 # For a full reference of all the available options, you can have a look at

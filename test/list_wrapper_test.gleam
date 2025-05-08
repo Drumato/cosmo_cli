@@ -1,6 +1,6 @@
+import cosmo_cli/list_wrapper
 import gleeunit
 import gleeunit/should
-import list_wrapper
 
 pub fn main() -> Nil {
   gleeunit.main()

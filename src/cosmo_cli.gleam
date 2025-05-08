@@ -1,10 +1,10 @@
 import argv
+import cosmo_cli/list_wrapper
 import gleam/dict.{type Dict}
 import gleam/int
 import gleam/io
 import gleam/list
 import gleam/option.{type Option, None, Some}
-import list_wrapper
 
 /// Flag is a struct that represents a command line flag.
 pub opaque type Flag {
@@ -324,7 +324,6 @@ fn run_command(
   case args {
     [] -> command.run(command)
     [first, ..] -> {
-      io.println("First: " <> first)
       case list.find(command.flags, find_flag(first)) {
         Ok(flag) -> parse_flag_and_run(command, first, flag, args)
         Error(_) ->
